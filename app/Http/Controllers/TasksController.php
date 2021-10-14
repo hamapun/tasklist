@@ -11,7 +11,7 @@ class TasksController extends Controller
     
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::where('user_id', \Auth::user()->id)->get();
         
         return view('tasks.index',['tasks' => $tasks,]);
     }
@@ -44,6 +44,7 @@ class TasksController extends Controller
         $task = new Task;
         $task->status = $request->status;
         $task->content = $request->content;
+        $task->user_id = \Auth::user()->id;
         $task->save();
         
         return redirect('/');
