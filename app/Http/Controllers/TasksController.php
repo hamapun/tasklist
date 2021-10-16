@@ -11,7 +11,16 @@ class TasksController extends Controller
     
     public function index()
     {
-        $tasks = Task::where('user_id', \Auth::user()->id)->get();
+        $tasks=[];
+        
+        if (\Auth::check()) {
+            
+        $user = \Auth::user();
+            
+        $tasks = $user->tasks()->orderBy('created_at', 'desc')->paginate(10);
+        
+        }
+        
         
         return view('tasks.index',['tasks' => $tasks,]);
     }
