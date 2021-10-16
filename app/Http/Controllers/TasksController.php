@@ -111,9 +111,12 @@ class TasksController extends Controller
         ]);
         
         $task = Task::findOrFail($id);
+        
+        if (\Auth::id() === $task->user_id) {
         $task->status = $request->status;
         $task->content = $request->content;
         $task->save();
+        }
         
         return redirect('/');
     }
